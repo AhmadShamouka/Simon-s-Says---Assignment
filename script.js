@@ -10,16 +10,15 @@ const yellowDiv = document.getElementById('yellow');
 const audioBlue = new Audio('./sounds/red.mp3');
 const blueDiv = document.getElementById('blue');
 
+let level=document.getElementById('level-title');
+let up=0
 let buttonArray=[]
-let level=1;
 let autoArray=[];
-
 const audioArray = [
   { id: 1, audio: audioGreen,name:greenDiv},
   { id: 2, audio: audioBlue,name:blueDiv},
   { id: 3, audio:  audioRed,name:yellowDiv},
   { id: 4, audio:  audioYellow,name:redDiv}
-
 ];
 
 function getRandomAudio() {
@@ -27,7 +26,8 @@ function getRandomAudio() {
   return audioArray[randomIndex];
 }
 function generateRandom() {
-  
+      up++;
+      levelUp();
       const randomAudio = getRandomAudio()
       autoArray.push(randomAudio.id);
       for(i=0;i<autoArray.length;i++){
@@ -42,8 +42,18 @@ function generateRandom() {
 console.log(autoArray)
 }
 
-greenDiv.addEventListener('click', function() {
+function levelUp(){
+  
+  let Levels=
+  level.innerHTML='Level: '+up;
+  
+  return Levels
+}
 
+
+
+
+greenDiv.addEventListener('click', function() {
   greenDiv.classList.add('pressed');
   audioGreen.play();
   setTimeout(() => {
@@ -89,11 +99,13 @@ blueDiv.addEventListener('click', function() {
 });
   
 function compareTo(){
+
   if(buttonArray.length === autoArray.length){
     for (let i = 0; i < buttonArray.length; i++) {
         if (buttonArray[i] !== autoArray[i]) {
             autoArray=[]
             buttonArray=[]
+             document.body.style.backgroundColor ='red';
             return;
         }
     }
